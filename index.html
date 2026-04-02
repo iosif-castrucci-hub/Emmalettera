@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Per te ❤️</title>
+
+  <style>
+    body {
+      background-color: #f4f1ee;
+      font-family: Georgia, serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 15px;
+    }
+
+    .lettera {
+      background: white;
+      padding: 25px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    #countdown {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #d6336c;
+      font-weight: bold;
+    }
+
+    #typewriter {
+      font-size: 20px;
+      min-height: 40px;
+      border-right: 2px solid black;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 400px) {
+      h1 { font-size: 20px; }
+      #typewriter { font-size: 18px; }
+      #countdown { font-size: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="lettera">
+  <h1>Per te ❤️</h1>
+
+  <div id="countdown"></div>
+
+  <div id="typewriter"></div>
+</div>
+
+<script>
+  // ======================
+  // COUNTDOWN
+  // ======================
+  const targetDate = new Date("April 4, 2026 19:45:00").getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance < 0) {
+      document.getElementById("countdown").innerHTML = "È arrivato il momento ❤️";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
+
+    document.getElementById("countdown").innerHTML =
+      days + "g " + hours + "h " + minutes + "m " + seconds + "s";
+  }
+
+  setInterval(updateCountdown, 1000);
+
+
+  // ======================
+  // TYPEWRITER LOOP
+  // ======================
+  const messages = [
+    "STRAMALEDETTAMENTE BELLA!",
+    "Mi manchi!",
+    "Ti voglio!"
+  ];
+
+  let messageIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  const speed = 80;
+  const pause = 1500;
+
+  function typeEffect() {
+    const element = document.getElementById("typewriter");
+    const currentMessage = messages[messageIndex];
+
+    if (!isDeleting) {
+      element.textContent = currentMessage.substring(0, charIndex++);
+      if (charIndex > currentMessage.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, pause);
+        return;
+      }
+    } else {
+      element.textContent = currentMessage.substring(0, charIndex--);
+      if (charIndex === 0) {
+        isDeleting = false;
+        messageIndex = (messageIndex + 1) % messages.length;
+      }
+    }
+
+    setTimeout(typeEffect, isDeleting ? speed / 2 : speed);
+  }
+
+  typeEffect();
+</script>
+
+</body>
+</html>
